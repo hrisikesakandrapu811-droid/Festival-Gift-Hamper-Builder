@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Festival Gift Hamper Builder - Paper Plane</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/views.css">
+  
+  <!-- CDNs for External Libraries -->
+  <!-- Chart.js for analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- jsPDF & AutoTable for reports -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Fullscreen Role Selection Portal -->
+  <div id="role-selection-portal" class="role-portal-overlay">
+    <div class="role-portal-container animate-fade">
+      
+      <!-- Logo Branding Header -->
+      <div class="role-portal-header">
+        <div class="role-portal-logo">
+          <i data-lucide="send" style="transform: rotate(45deg); width: 28px; height: 28px; color: white;"></i>
+        </div>
+        <h2>Paper Plane Gift Hampers</h2>
+        <p id="portal-subtitle">Choose your portal below to continue</p>
+      </div>
+
+      <!-- PAGE 1: ROLE SELECTION -->
+      <div class="role-cards-grid" id="portal-role-selection">
+        <!-- Card 1: User -->
+        <div class="role-card" id="btn-select-user">
+          <div class="role-card-icon" style="background-color: var(--gold);">
+            <i data-lucide="shopping-bag" style="width: 28px; height: 28px; color: white;"></i>
+          </div>
+          <h3>Customer Portal</h3>
+          <p>Create bespoke festival gift hampers with our live builder, preview custom greeting cards, and track your orders in real-time.</p>
+          <button class="btn btn-primary" style="width: 100%; margin-top: auto;">Enter Customer Shop</button>
+        </div>
+        <!-- Card 2: Admin -->
+        <div class="role-card" id="btn-select-admin">
+          <div class="role-card-icon" style="background-color: var(--info);">
+            <i data-lucide="shield-check" style="width: 28px; height: 28px; color: white;"></i>
+          </div>
+          <h3>Store Manager Console</h3>
+          <p>Monitor shop performance, manage order status workflows, maintain product catalogs, audit reports, and configure packaging values.</p>
+          <button class="btn btn-primary" style="width: 100%; margin-top: auto; background: linear-gradient(135deg, var(--info) 0%, #1e40af 100%);">Enter Admin Console</button>
+        </div>
+      </div>
+
+      <!-- PAGE 2: ADMIN LOGIN -->
+      <div class="auth-card-form hidden" id="portal-admin-login">
+        <h3 class="auth-form-title" style="text-align: center; margin-bottom: 0.25rem;">Admin Authentication</h3>
+        <p class="text-muted" style="font-size: 0.8125rem; margin-bottom: 1.25rem; text-align: center;">Enter store credentials. (default: admin / paperplane)</p>
+        
+        <div class="form-group">
+          <label class="form-label" for="admin-login-username">Username</label>
+          <input type="text" id="admin-login-username" class="form-control" placeholder="E.g. admin">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="admin-login-password">Password</label>
+          <input type="password" id="admin-login-password" class="form-control" placeholder="••••••••">
+        </div>
+        
+        <div class="flex flex-col gap-2" style="margin-top: 1.5rem;">
+          <button class="btn btn-primary" id="btn-admin-login-submit" style="width: 100%; background: linear-gradient(135deg, var(--info) 0%, #1e40af 100%);">Sign In as Admin</button>
+          <button class="btn btn-secondary" id="btn-admin-login-back" style="width: 100%;">Back to Selection</button>
+        </div>
+      </div>
+
+      <!-- PAGE 3: CUSTOMER LOGIN/REGISTER -->
+      <div class="auth-card-form hidden" id="portal-customer-auth">
+        
+        <!-- Tabs -->
+        <div class="auth-tabs" style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
+          <button class="btn btn-secondary auth-tab active" id="tab-cust-signin" style="flex: 1; padding: 0.5rem;">Sign In</button>
+          <button class="btn btn-secondary auth-tab" id="tab-cust-signup" style="flex: 1; padding: 0.5rem;">Register Account</button>
+        </div>
+
+        <!-- Customer Sign In Form -->
+        <div class="auth-tab-content" id="form-cust-signin">
+          <div class="form-group">
+            <label class="form-label" for="cust-signin-query">Phone Number or Email</label>
+            <input type="text" id="cust-signin-query" class="form-control" placeholder="E.g. 9876543210 or alice@gmail.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cust-signin-password">Password</label>
+            <input type="password" id="cust-signin-password" class="form-control" placeholder="••••••••">
+          </div>
+          <button class="btn btn-primary" id="btn-cust-signin-submit" style="width: 100%; margin-top: 1.25rem;">Sign In</button>
+        </div>
+
+        <!-- Customer Sign Up Form -->
+        <div class="auth-tab-content hidden" id="form-cust-signup">
+          <div class="form-group">
+            <label class="form-label" for="cust-signup-name">Full Name</label>
+            <input type="text" id="cust-signup-name" class="form-control" placeholder="E.g. Rajesh Kumar">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cust-signup-email">Email Address</label>
+            <input type="email" id="cust-signup-email" class="form-control" placeholder="E.g. rajesh@gmail.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cust-signup-phone">Phone Number (10 digits)</label>
+            <input type="tel" id="cust-signup-phone" class="form-control" placeholder="10-digit number" maxlength="10">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cust-signup-password">Password</label>
+            <input type="password" id="cust-signup-password" class="form-control" placeholder="••••••••">
+          </div>
+          <button class="btn btn-primary" id="btn-cust-signup-submit" style="width: 100%; margin-top: 1.25rem;">Register & Sign In</button>
+        </div>
+
+        <button class="btn btn-secondary" id="btn-cust-auth-back" style="width: 100%; margin-top: 0.75rem;">Back to Selection</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="app-container">
+    
+    <!-- Sidebar Overlay for mobile screen drawer toggles -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- Sidebar Section -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <i data-lucide="send" style="transform: rotate(45deg); width: 22px; height: 22px;"></i>
+        </div>
+        <h1 class="sidebar-brand">Paper Plane</h1>
+      </div>
+
+      <nav style="flex-grow: 1;">
+        <ul class="sidebar-menu" id="sidebar-menu-list">
+          <li class="menu-item active" data-page="dashboard">
+            <i data-lucide="layout-dashboard"></i>
+            <span class="menu-text">Dashboard</span>
+          </li>
+          <li class="menu-item" data-page="builder">
+            <i data-lucide="package-plus"></i>
+            <span class="menu-text">Build Hamper</span>
+          </li>
+          <li class="menu-item" data-page="orders">
+            <i data-lucide="shopping-cart"></i>
+            <span class="menu-text">Orders</span>
+          </li>
+          <li class="menu-item" data-page="inventory">
+            <i data-lucide="clipboard-list"></i>
+            <span class="menu-text">Inventory</span>
+          </li>
+          <li class="menu-item" data-page="reports">
+            <i data-lucide="bar-chart-3"></i>
+            <span class="menu-text">Reports</span>
+          </li>
+          <li class="menu-item" data-page="settings">
+            <i data-lucide="settings"></i>
+            <span class="menu-text">Settings</span>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <!-- Theme switcher -->
+        <div class="theme-switch">
+          <button class="theme-btn active" data-theme="light">
+            <i data-lucide="sun"></i>
+            <span>Light</span>
+          </button>
+          <button class="theme-btn" data-theme="dark">
+            <i data-lucide="moon"></i>
+            <span>Dark</span>
+          </button>
+        </div>
+        
+        <!-- User Profile Tag -->
+        <div class="user-profile">
+          <div class="avatar" id="sidebar-user-avatar">PP</div>
+          <div class="user-info">
+            <span class="user-name" id="sidebar-user-name">Manager</span>
+            <span class="user-role" id="sidebar-user-role">Paper Plane Shop</span>
+          </div>
+        </div>
+
+        <!-- Switch Role button -->
+        <button class="btn btn-secondary switch-role-btn" id="sidebar-switch-role-btn" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 0.75rem; padding: 0.5rem; font-size: 0.8125rem; border-color: var(--border-color);">
+          <i data-lucide="log-out" style="width: 16px; height: 16px;"></i>
+          <span>Switch Role</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Panel -->
+    <div class="main-wrapper">
+      
+      <!-- Top header bar -->
+      <header class="main-header">
+        <div class="header-left">
+          <button class="mobile-toggle" id="mobile-toggle">
+            <i data-lucide="menu"></i>
+          </button>
+          <h2 class="page-title">Dashboard</h2>
+        </div>
+        
+        <div class="header-right">
+          <!-- Search Bar (General visual) -->
+          <div class="search-bar">
+            <i data-lucide="search"></i>
+            <input type="text" placeholder="Search orders, stock...">
+          </div>
+          
+          <!-- Mock Notification Bell -->
+          <button class="icon-badge-btn" onclick="alert('Notification center: All stocks synced successfully!')">
+            <i data-lucide="bell"></i>
+            <span class="badge">2</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Content Views Router -->
+      <main class="content-body">
+        
+        <!-- 1. DASHBOARD VIEW -->
+        <section id="dashboard-view" class="content-section animate-fade">
+          
+          <!-- Metric Widget Cards -->
+          <div class="dashboard-grid">
+            <div class="metric-card">
+              <div class="metric-details">
+                <h4>Total Hampers Built</h4>
+                <p id="metric-total-hampers">0</p>
+              </div>
+              <div class="metric-icon" style="background-color: var(--gold);">
+                <i data-lucide="gift"></i>
+              </div>
+            </div>
+            
+            <div class="metric-card">
+              <div class="metric-details">
+                <h4>Pending Orders</h4>
+                <p id="metric-active-orders">0</p>
+              </div>
+              <div class="metric-icon" style="background-color: var(--info);">
+                <i data-lucide="clock"></i>
+              </div>
+            </div>
+            
+            <div class="metric-card">
+              <div class="metric-details">
+                <h4>Total Revenue</h4>
+                <p id="metric-revenue">₹0</p>
+              </div>
+              <div class="metric-icon" style="background-color: var(--success);">
+                <i data-lucide="indian-rupee"></i>
+              </div>
+            </div>
+            
+            <div class="metric-card">
+              <div class="metric-details">
+                <h4>Low Stock Items</h4>
+                <p id="metric-low-stock">0</p>
+              </div>
+              <div class="metric-icon" style="background-color: var(--danger);">
+                <i data-lucide="alert-triangle"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts Sections -->
+          <div class="charts-section">
+            <div class="card chart-card">
+              <h3 class="card-title">Revenue Timeline</h3>
+              <div class="chart-container">
+                <canvas id="revenue-chart-canvas"></canvas>
+              </div>
+            </div>
+            
+            <div class="card chart-card">
+              <h3 class="card-title">Occasion Sales</h3>
+              <div class="chart-container">
+                <canvas id="occasion-chart-canvas"></canvas>
+              </div>
+              <div id="occasion-legend" class="custom-chart-legend"></div>
+            </div>
+          </div>
+
+          <!-- Bottom Recent Table & Demands -->
+          <div class="dashboard-recent">
+            <div class="card">
+              <h3 class="card-title">Recent Hamper Orders</h3>
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Order ID</th>
+                      <th>Customer Details</th>
+                      <th>Recipient</th>
+                      <th>Occasion</th>
+                      <th>Price</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dashboard-recent-table-body">
+                    <!-- Dynamic -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+            <div class="card">
+              <h3 class="card-title">Popular Occasions</h3>
+              <div id="popular-occasions-list" class="popular-occasions-list">
+                <!-- Dynamic Progress Bars -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. BUILD HAMPER VIEW -->
+        <section id="builder-view" class="content-section animate-fade hidden">
+          <div class="builder-layout">
+            
+            <!-- Left inputs panel -->
+            <div class="flex flex-col gap-4">
+              
+              <!-- Step 1: Customer info -->
+              <div class="card builder-step-card">
+                <h3 class="card-title" style="margin-bottom: 1.25rem;">1. Customer & Recipient Information</h3>
+                <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1rem;">
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" for="builder-customer-name">Customer Name</label>
+                    <input type="text" id="builder-customer-name" class="form-control" placeholder="E.g. Rajesh Kumar">
+                  </div>
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" for="builder-phone">Phone Number</label>
+                    <input type="tel" id="builder-phone" class="form-control" placeholder="10-digit number" maxlength="10" pattern="\d*">
+                  </div>
+                </div>
+                
+                <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" for="builder-recipient-name">Recipient Name</label>
+                    <input type="text" id="builder-recipient-name" class="form-control" placeholder="E.g. Anjali Verma">
+                  </div>
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" for="builder-major-category">Major Category</label>
+                    <select id="builder-major-category" class="form-select">
+                      <option value="" disabled selected>Select Category...</option>
+                      <option value="Festival Hampers">Festival Hampers</option>
+                      <option value="Personal Occasion Hampers">Personal Occasion Hampers</option>
+                      <option value="Corporate Gift Hampers">Corporate Gift Hampers</option>
+                      <option value="Seasonal & Special Occasion Hampers">Seasonal & Special Occasion Hampers</option>
+                      <option value="Premium & Customized Hampers">Premium & Customized Hampers</option>
+                    </select>
+                  </div>
+                </div>
+                
+                <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" for="builder-occasion">Subcategory (Occasion)</label>
+                    <select id="builder-occasion" class="form-select" disabled>
+                      <option value="" disabled selected>Choose category first...</option>
+                    </select>
+                  </div>
+                  <div style="visibility: hidden;"></div>
+                </div>
+              </div>
+
+              <!-- Step 2: Product picker -->
+              <div class="card builder-step-card">
+                <div class="flex justify-between align-center" style="margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+                  <h3 class="card-title" style="margin-bottom: 0;">2. Select Packaging & Products</h3>
+                  
+                  <!-- Packaging Selection -->
+                  <div class="flex align-center gap-2">
+                    <label class="form-label" for="builder-packaging" style="margin-bottom: 0; white-space: nowrap;">Container:</label>
+                    <select id="builder-packaging" class="form-select" style="padding: 0.4rem 0.75rem; font-size: 0.8125rem;">
+                      <!-- Dynamic options from setting -->
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Product Filters & Search -->
+                <div class="flex justify-between align-center gap-4" style="margin-bottom: 1rem; flex-wrap: wrap;">
+                  <div class="search-bar" style="display: flex; width: 100%; max-width: 250px;">
+                    <i data-lucide="search"></i>
+                    <input type="text" id="builder-product-search" placeholder="Search product name...">
+                  </div>
+                  
+                  <div class="flex align-center gap-2">
+                    <label class="form-label" for="builder-category-select" style="margin-bottom: 0; white-space: nowrap;">Category:</label>
+                    <select id="builder-category-select" class="form-select" style="padding: 0.4rem 0.75rem; font-size: 0.8125rem; width: 200px;">
+                      <option value="All">All Categories</option>
+                      <option value="Chocolates & Sweets">Chocolates & Sweets</option>
+                      <option value="Dry Fruits & Snacks">Dry Fruits & Snacks</option>
+                      <option value="Beverages">Beverages</option>
+                      <option value="Personalized Gifts">Personalized Gifts</option>
+                      <option value="Home & Decor">Home & Decor</option>
+                      <option value="Festival Essentials">Festival Essentials</option>
+                      <option value="Lifestyle & Premium Gifts">Lifestyle & Premium Gifts</option>
+                      <option value="Office & Utility Gifts">Office & Utility Gifts</option>
+                      <option value="Special Occasion Gifts">Special Occasion Gifts</option>
+                      <option value="Corporate Gifts">Corporate Gifts</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Picker grid -->
+                <div class="product-picker-grid" id="builder-product-grid">
+                  <!-- Dynamic Product Cards -->
+                </div>
+              </div>
+
+              <!-- Step 3: Greeting message -->
+              <div class="card builder-step-card">
+                <h3 class="card-title">3. Personal Greeting Note</h3>
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label class="form-label" for="builder-message">Gift Message Card text</label>
+                  <textarea id="builder-message" class="form-textarea" placeholder="Type your personal message here. Let's make it festive!"></textarea>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Right preview panel -->
+            <div class="preview-container">
+              <div class="card">
+                <h3 class="card-title" style="border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">Hamper Blueprint</h3>
+                
+                <!-- 1. Live basket draw preview -->
+                <div class="hamper-visual-preview">
+                  <div class="basket-handle"></div>
+                  <div class="basket-items-wrapper" id="basket-items-layer">
+                    <!-- Dynamic floating products chips -->
+                  </div>
+                  <div class="basket-body" id="hamper-basket-body">
+                    <div class="basket-ribbon"></div>
+                    <div class="basket-ribbon-bow"></div>
+                  </div>
+                </div>
+
+                <!-- 2. Greeting card style preview -->
+                <div class="greeting-card-preview card-theme-default" id="greeting-card-preview">
+                  <div class="card-occasion-title">Greeting Card</div>
+                  <div class="card-message-text">Select products and write a greeting message to preview!</div>
+                </div>
+
+                <!-- 3. Receipt Invoice sums -->
+                <div class="invoice-summary-list" id="builder-summary-items">
+                  <!-- Dynamic item sums -->
+                </div>
+
+                <div class="flex justify-between align-center" style="margin-top: 1rem;">
+                  <div class="flex flex-col">
+                    <span class="text-muted" style="font-size: 0.8125rem;">Estimated Price</span>
+                    <span class="font-bold" style="font-size: 1.5rem;" id="builder-total-amount">₹0</span>
+                  </div>
+                  <button class="btn btn-primary" id="builder-submit-btn" style="padding: 0.75rem 2rem;">
+                    Confirm & Build Hamper
+                  </button>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- 3. ORDERS LIST VIEW -->
+        <section id="orders-view" class="content-section animate-fade hidden">
+          <!-- Filters bar -->
+          <div class="orders-filters-container">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" style="font-size: 0.75rem;">Search</label>
+              <div class="search-bar" style="display: flex; width: 100%; border-radius: var(--radius-md);">
+                <i data-lucide="search"></i>
+                <input type="text" id="orders-search-input" placeholder="Name, Phone, ID...">
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" style="font-size: 0.75rem;">Major Category</label>
+              <select id="orders-filter-major-category" class="form-select">
+                <option value="All">All Categories</option>
+                <option value="Festival Hampers">Festival Hampers</option>
+                <option value="Personal Occasion Hampers">Personal Occasion Hampers</option>
+                <option value="Corporate Gift Hampers">Corporate Gift Hampers</option>
+                <option value="Seasonal & Special Occasion Hampers">Seasonal & Special Occasion Hampers</option>
+                <option value="Premium & Customized Hampers">Premium & Customized Hampers</option>
+              </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" style="font-size: 0.75rem;">Subcategory (Occasion)</label>
+              <select id="orders-filter-occasion" class="form-select" disabled>
+                <option value="All">All Subcategories</option>
+              </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" style="font-size: 0.75rem;">Status</label>
+              <select id="orders-filter-status" class="form-select">
+                <option value="All">All Statuses</option>
+                <option value="Pending">Pending</option>
+                <option value="Assembled">Assembled</option>
+                <option value="Shipped">Shipped</option>
+                <option value="Delivered">Delivered</option>
+              </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" style="font-size: 0.75rem;">Packaging</label>
+              <select id="orders-filter-packaging" class="form-select">
+                <option value="All">All Packaging</option>
+                <option value="Cardboard Box">Cardboard Box</option>
+                <option value="Wooden Tray">Wooden Tray</option>
+                <option value="Festive Gift Box">Festive Gift Box</option>
+                <option value="Premium Basket">Premium Basket</option>
+                <option value="Corporate Gift Box">Corporate Gift Box</option>
+                <option value="Luxury Hamper Basket">Luxury Hamper Basket</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Orders Table -->
+          <div class="card">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Created Date</th>
+                    <th>Customer Name</th>
+                    <th>Recipient</th>
+                    <th>Occasion</th>
+                    <th>Total Cost</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="orders-table-body">
+                  <!-- Dynamic -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. INVENTORY MANAGEMENT VIEW -->
+        <section id="inventory-view" class="content-section animate-fade hidden">
+          
+          <div class="inventory-header-actions">
+            <!-- Search & Filters -->
+            <div class="inventory-filters">
+              <div class="search-bar" style="display: flex;">
+                <i data-lucide="search"></i>
+                <input type="text" id="inventory-search-input" placeholder="Search product name...">
+              </div>
+              
+              <select id="inventory-filter-category" class="form-select" style="max-width: 180px;">
+                <option value="All">All Categories</option>
+                <!-- Dynamic categories -->
+              </select>
+            </div>
+
+            <button class="btn btn-primary" id="add-product-btn">
+              <i data-lucide="plus"></i> Add Product
+            </button>
+          </div>
+
+          <!-- Inventory Table -->
+          <div class="card">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Product ID</th>
+                    <th>Product Details</th>
+                    <th>Base Price</th>
+                    <th>Stock Units</th>
+                    <th>Availability</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="inventory-table-body">
+                  <!-- Dynamic -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4a. ADMIN CUSTOMERS VIEW -->
+        <section id="customers-view" class="content-section animate-fade hidden">
+          
+          <div class="inventory-header-actions">
+            <!-- Search -->
+            <div class="inventory-filters">
+              <div class="search-bar" style="display: flex;">
+                <i data-lucide="search"></i>
+                <input type="text" id="customers-search-input" placeholder="Search customer name, phone, email...">
+              </div>
+            </div>
+          </div>
+
+          <!-- Customers Table -->
+          <div class="card">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Customer ID</th>
+                    <th>Customer Name</th>
+                    <th>Email Address</th>
+                    <th>Phone Number</th>
+                    <th>Joining Date</th>
+                    <th>Hampers Ordered</th>
+                  </tr>
+                </thead>
+                <tbody id="customers-table-body">
+                  <!-- Dynamic -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. OPERATIONS REPORTS VIEW -->
+        <section id="reports-view" class="content-section animate-fade hidden">
+          <!-- Summary indicators -->
+          <div class="reports-stats">
+            <div class="metric-card">
+              <div class="metric-details">
+                <h4>Total Revenue</h4>
+                <p id="report-total-revenue">₹0</p>
+              </div>
+              <div class="metric-icon" style="background-color: var(--success);"><i data-lucide="indian-rupee"></i></div>
+            </div>
+            
+            <div class="metric-card">
+              <div class="metric-details">
+                <h4>Avg. Hamper Cost</h4>
+                <p id="report-avg-value">₹0</p>
+              </div>
+              <div class="metric-icon" style="background-color: var(--gold);"><i data-lucide="gift"></i></div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-details">
+                <h4>Top Occasion</h4>
+                <p id="report-top-occasion">-</p>
+              </div>
+              <div class="metric-icon" style="background-color: var(--info);"><i data-lucide="award"></i></div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-details">
+                <h4>Hampers Shipped</h4>
+                <p id="report-items-sold">0</p>
+              </div>
+              <div class="metric-icon" style="background-color: var(--warning);"><i data-lucide="truck"></i></div>
+            </div>
+          </div>
+
+          <!-- Report table list and exports trigger -->
+          <div class="card">
+            <div class="flex justify-between align-center" style="margin-bottom: 1.25rem; flex-wrap: wrap; gap: 1rem;">
+              <h3 class="card-title" style="margin-bottom: 0;">Comprehensive Orders Audit Log</h3>
+              
+              <div class="flex gap-2">
+                <button class="btn btn-secondary" id="report-export-csv-btn">
+                  <i data-lucide="file-spreadsheet"></i> Export CSV
+                </button>
+                <button class="btn btn-primary" id="report-export-pdf-btn">
+                  <i data-lucide="file-text"></i> Export PDF
+                </button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Date</th>
+                    <th>Customer</th>
+                    <th>Occasion</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="reports-table-body">
+                  <!-- Dynamic -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. SETTINGS VIEW -->
+        <section id="settings-view" class="content-section animate-fade hidden">
+          <div class="settings-grid">
+            
+            <!-- Left Side settings - shop & packaging pricing -->
+            <div class="settings-box">
+              <h3 class="settings-heading">Business Configurations</h3>
+              
+              <div class="form-group">
+                <label class="form-label" for="set-shop-name">Shop Display Title</label>
+                <input type="text" id="set-shop-name" class="form-control">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="set-currency">Currency Symbol</label>
+                <select id="set-currency" class="form-select">
+                  <option value="₹">Rupee (₹)</option>
+                  <option value="$">US Dollar ($)</option>
+                  <option value="€">Euro (€)</option>
+                  <option value="£">Pound (£)</option>
+                </select>
+              </div>
+
+              <h4 class="font-semibold" style="margin-top: 1rem; font-size: 0.875rem;">Packaging Base Pricing</h4>
+              <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label class="form-label" style="font-size: 0.75rem;">Cardboard Box</label>
+                  <input type="number" id="set-pkg-price-0" class="form-control">
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label class="form-label" style="font-size: 0.75rem;">Wooden Tray</label>
+                  <input type="number" id="set-pkg-price-1" class="form-control">
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label class="form-label" style="font-size: 0.75rem;">Festive Gift Box</label>
+                  <input type="number" id="set-pkg-price-2" class="form-control">
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label class="form-label" style="font-size: 0.75rem;">Premium Basket</label>
+                  <input type="number" id="set-pkg-price-3" class="form-control">
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label class="form-label" style="font-size: 0.75rem;">Corporate Gift Box</label>
+                  <input type="number" id="set-pkg-price-4" class="form-control">
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label class="form-label" style="font-size: 0.75rem;">Luxury Hamper Basket</label>
+                  <input type="number" id="set-pkg-price-5" class="form-control">
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Side settings - Data Management -->
+            <div class="settings-box">
+              <h3 class="settings-heading">Data Management</h3>
+              <p class="text-muted" style="font-size: 0.8125rem; margin-bottom: 0.5rem;">
+                Manage the system database. Warning: clearing data is permanent and will remove all custom products, hampers, orders, and inventory records.
+              </p>
+              
+              <div style="margin-top: 1rem;">
+                <button class="btn btn-secondary" id="settings-clear-all-btn" style="width: 100%; border-color: var(--danger); color: var(--danger);">
+                  Clear All Data
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Save settings CTA bar -->
+          <div class="flex justify-end" style="margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+            <button class="btn btn-primary" id="settings-save-btn" style="padding: 0.75rem 2.5rem;">
+              Save Settings Configurations
+            </button>
+          </div>
+        </section>
+
+        <!-- 7. TRACK ORDER VIEW -->
+        <section id="tracking-view" class="content-section animate-fade hidden">
+          <div class="card tracking-search-box">
+            <h3 class="card-title" style="margin-bottom: 0.5rem;">Track Your Hamper Order</h3>
+            <p class="text-muted" style="font-size: 0.875rem; margin-bottom: 1.25rem;">
+              Enter your Order ID (e.g. ORD-1234) or the Phone Number associated with your order.
+            </p>
+            <div class="flex gap-3 align-center" style="max-width: 600px; width: 100%; flex-wrap: wrap;">
+              <div class="search-bar" style="display: flex; flex-grow: 1; border-radius: var(--radius-md); margin-bottom: 0;">
+                <i data-lucide="search"></i>
+                <input type="text" id="track-search-input" placeholder="E.g. ORD-1234 or 9876543210" style="width: 100%;">
+              </div>
+              <button class="btn btn-primary" id="track-search-btn" style="padding: 0.75rem 2rem;">
+                Search Order
+              </button>
+            </div>
+            
+            <!-- Quick list of phone matches if phone searched -->
+            <div id="track-matches-container" class="track-matches-container hidden" style="margin-top: 1.5rem;">
+              <h4 style="font-size: 0.875rem; margin-bottom: 0.75rem;">Orders Found for this Phone:</h4>
+              <div class="track-matches-grid" id="track-matches-grid">
+                <!-- Dynamic cards -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Tracking status details card -->
+          <div id="tracking-results-card" class="card tracking-results-card hidden" style="margin-top: 1.5rem;">
+            
+            <div class="flex justify-between align-center" style="border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.5rem;">
+              <div>
+                <span class="text-muted" style="font-size: 0.8125rem;">Order Number</span>
+                <h3 id="track-order-id" style="font-family: var(--font-sans); font-weight: 700; color: var(--gold);">-</h3>
+              </div>
+              <div class="text-right">
+                <span class="text-muted" style="font-size: 0.8125rem;">Current Status</span>
+                <div>
+                  <span id="track-order-status-badge" class="status-badge pending">-</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stepper Timeline -->
+            <div class="tracking-stepper">
+              <div class="step-node" id="step-node-pending">
+                <div class="step-icon"><i data-lucide="clock"></i></div>
+                <div class="step-label">Order Placed</div>
+              </div>
+              <div class="step-connector" id="connector-assembled"></div>
+              <div class="step-node" id="step-node-assembled">
+                <div class="step-icon"><i data-lucide="package"></i></div>
+                <div class="step-label">Assembled</div>
+              </div>
+              <div class="step-connector" id="connector-shipped"></div>
+              <div class="step-node" id="step-node-shipped">
+                <div class="step-icon"><i data-lucide="truck"></i></div>
+                <div class="step-label">Shipped</div>
+              </div>
+              <div class="step-connector" id="connector-delivered"></div>
+              <div class="step-node" id="step-node-delivered">
+                <div class="step-icon"><i data-lucide="party-popper"></i></div>
+                <div class="step-label">Delivered</div>
+              </div>
+            </div>
+
+            <div class="tracking-details-grid" style="margin-top: 2rem;">
+              <!-- Left: details & progress history log -->
+              <div class="flex flex-col gap-4">
+                <div class="card bg-tertiary" style="margin: 0; padding: 1.25rem;">
+                  <h4 style="font-size: 0.95rem; margin-bottom: 0.75rem;">Delivery Status Update</h4>
+                  <p id="track-status-description" style="font-size: 0.875rem;">Your order details are loaded below.</p>
+                </div>
+
+                <div class="card" style="margin: 0; padding: 1.25rem;">
+                  <h4 style="font-size: 0.95rem; margin-bottom: 0.75rem;">Shipment Transit Log</h4>
+                  <ul class="tracking-timeline-log" id="tracking-timeline-log">
+                    <!-- Dynamic relative log times -->
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Right: basket contents and message card -->
+              <div class="flex flex-col gap-4">
+                <!-- Dynamic greeting card visual -->
+                <div class="greeting-card-preview" id="track-greeting-card" style="width: 100%; min-height: 160px; margin: 0;">
+                  <!-- Dynamic greeting template based on occasion -->
+                </div>
+
+                <div class="card" style="margin: 0; padding: 1.25rem;">
+                  <h4 style="font-size: 0.95rem; margin-bottom: 0.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+                    Hamper Contents
+                  </h4>
+                  <div class="flex flex-col gap-2" style="font-size: 0.875rem;">
+                    <div style="display: flex; justify-content: space-between; font-weight: 500;">
+                      <span>Recipient:</span>
+                      <span id="track-recipient-name" class="font-semibold">-</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-weight: 500;">
+                      <span>Occasion / Theme:</span>
+                      <span id="track-occasion" class="text-gold font-semibold">-</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-weight: 500; margin-bottom: 0.5rem;">
+                      <span>Packaging:</span>
+                      <span id="track-packaging-type">-</span>
+                    </div>
+                    
+                    <div style="border-top: 1px dashed var(--border-color); padding-top: 0.5rem; margin-top: 0.25rem;">
+                      <ul id="track-items-list" class="flex flex-col gap-1 text-muted" style="list-style: none; font-size: 0.8125rem; padding-left: 0;">
+                        <!-- Dynamic items -->
+                      </ul>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1.05rem; border-top: 1px solid var(--border-color); padding-top: 0.75rem; margin-top: 0.5rem;">
+                      <span>Total Paid:</span>
+                      <span id="track-total-amount" class="text-gold">₹0</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- 8. USER SETTINGS VIEW -->
+        <section id="user-settings-view" class="content-section animate-fade hidden">
+          <div class="settings-grid">
+            
+            <!-- Left Side settings - Personal Profile -->
+            <div class="settings-box">
+              <h3 class="settings-heading">Customer Profile Details</h3>
+              <p class="text-muted" style="font-size: 0.8125rem; margin-bottom: 1.25rem;">
+                Specify your profile details to customize greetings and quickly load your order history automatically.
+              </p>
+              
+              <div class="form-group">
+                <label class="form-label" for="user-set-name">Your Full Name</label>
+                <input type="text" id="user-set-name" class="form-control" placeholder="E.g. Rajesh Kumar">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="user-set-phone">Phone Number</label>
+                <input type="tel" id="user-set-phone" class="form-control" placeholder="10-digit number" maxlength="10" pattern="\d*">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="user-set-email">Email Address</label>
+                <input type="email" id="user-set-email" class="form-control" placeholder="E.g. rajesh@gmail.com">
+              </div>
+
+              <div class="flex justify-end" style="margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                <button class="btn btn-primary" id="user-settings-save-btn" style="padding: 0.6rem 2rem;">
+                  Save Profile Details
+                </button>
+              </div>
+            </div>
+
+            <!-- Right Side - Theme and History -->
+            <div class="flex flex-col gap-4">
+              <div class="settings-box">
+                <h3 class="settings-heading">Theme Configuration</h3>
+                <p class="text-muted" style="font-size: 0.8125rem; margin-bottom: 0.75rem;">
+                  Choose your visual interface appearance preference.
+                </p>
+                <div class="theme-switch" style="max-width: 250px;">
+                  <button class="theme-btn" data-theme="light">
+                    <i data-lucide="sun"></i>
+                    <span>Light</span>
+                  </button>
+                  <button class="theme-btn" data-theme="dark">
+                    <i data-lucide="moon"></i>
+                    <span>Dark</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="settings-box" style="flex-grow: 1;">
+                <h3 class="settings-heading">Recent Purchases</h3>
+                <p class="text-muted" style="font-size: 0.8125rem; margin-bottom: 1rem;">
+                  Quickly track order shipments you have placed.
+                </p>
+                <div id="user-history-list" class="user-history-list flex flex-col gap-2">
+                  <!-- Dynamic orders list of matching phone number -->
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+  </div>
+
+  <!-- ==========================================
+       MODALS SYSTEM
+       ========================================== -->
+       
+  <!-- 1. ORDER DETAILS SLIP DRAWER MODAL -->
+  <div class="modal" id="order-details-modal">
+    <div class="modal-backdrop" id="order-details-modal-backdrop"></div>
+    <div class="modal-content large">
+      <div class="modal-header">
+        <h3 class="modal-title">Order Information Sheet</h3>
+        <button class="modal-close" id="order-details-modal-close">&times;</button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="order-slip-container">
+          
+          <!-- Header details -->
+          <div class="order-slip-header">
+            <div class="order-slip-meta">
+              <div>
+                <span class="text-muted">Order ID: </span>
+                <span class="font-semibold" id="details-order-id">-</span>
+              </div>
+              <div class="text-right">
+                <span class="text-muted">Placement Date: </span>
+                <span class="font-semibold" id="details-order-date">-</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Customer info -->
+          <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div>
+              <div class="order-slip-section-title">Customer details</div>
+              <p class="font-semibold" id="details-customer-name">-</p>
+              <p class="text-muted" style="font-size: 0.8125rem;" id="details-customer-phone">-</p>
+            </div>
+            <div>
+              <div class="order-slip-section-title">Delivery details</div>
+              <p><span class="text-muted">To: </span><span class="font-semibold" id="details-recipient-name">-</span></p>
+              <p><span class="text-muted">Occasion: </span><span class="font-semibold text-gold" id="details-order-occasion">-</span></p>
+              <p><span class="text-muted">Packaging: </span><span class="font-semibold" id="details-order-packaging">-</span></p>
+            </div>
+          </div>
+
+          <!-- Items list -->
+          <div>
+            <div class="order-slip-section-title">Gift Hamper Materials</div>
+            <table class="order-slip-items">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Unit Price</th>
+                  <th>Quantity</th>
+                  <th class="text-right">Total Price</th>
+                </tr>
+              </thead>
+              <tbody id="details-order-items-body">
+                <!-- Dynamic -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Greeting Card -->
+          <div>
+            <div class="order-slip-section-title">Greeting Card Personal Note</div>
+            <div class="order-slip-greeting" id="details-greeting-text">
+              -
+            </div>
+          </div>
+
+          <!-- Pricing summary -->
+          <div class="invoice-summary-list" style="margin: 0; border: none; padding: 0;">
+            <div class="invoice-summary-row">
+              <span class="text-muted">Products Subtotal</span>
+              <span id="details-subtotal">₹0</span>
+            </div>
+            <div class="invoice-summary-row">
+              <span class="text-muted">Packaging Container Fee</span>
+              <span id="details-packaging-fee">₹0</span>
+            </div>
+            <div class="invoice-summary-row total" style="border-top: 1px solid var(--border-color); padding-top: 0.5rem;">
+              <span>Grand Total</span>
+              <span id="details-grand-total">₹0</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="modal-footer justify-between">
+        <div class="flex align-center gap-2">
+          <label class="form-label" style="margin-bottom: 0; font-size: 0.8125rem; white-space: nowrap;">Change Order State:</label>
+          <select id="details-order-status-select" class="form-select" style="padding: 0.4rem; font-size: 0.8125rem; width: 140px;">
+            <option value="Pending">Pending</option>
+            <option value="Assembled">Assembled</option>
+            <option value="Shipped">Shipped</option>
+            <option value="Delivered">Delivered</option>
+          </select>
+        </div>
+        
+        <div class="flex gap-2">
+          <button class="btn btn-danger" id="details-delete-order-btn">
+            Cancel & Void Order
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. PRODUCT EDIT / ADD DIALOG MODAL -->
+  <div class="modal" id="product-modal">
+    <div class="modal-backdrop" id="product-modal-backdrop"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="product-modal-title">Add Product</h3>
+        <button class="modal-close" id="product-modal-close">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="prod-name">Product Name</label>
+          <input type="text" id="prod-name" class="form-control" placeholder="E.g. Roasted Cashews Jar (250g)">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="prod-category">Category</label>
+          <select id="prod-category" class="form-select">
+            <option value="" disabled selected>Select Category...</option>
+            <option value="Chocolates & Sweets">Chocolates & Sweets</option>
+            <option value="Dry Fruits & Snacks">Dry Fruits & Snacks</option>
+            <option value="Beverages">Beverages</option>
+            <option value="Personalized Gifts">Personalized Gifts</option>
+            <option value="Home & Decor">Home & Decor</option>
+            <option value="Festival Essentials">Festival Essentials</option>
+            <option value="Lifestyle & Premium Gifts">Lifestyle & Premium Gifts</option>
+            <option value="Office & Utility Gifts">Office & Utility Gifts</option>
+            <option value="Special Occasion Gifts">Special Occasion Gifts</option>
+            <option value="Corporate Gifts">Corporate Gifts</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="prod-price">Retail Price</label>
+          <input type="number" id="prod-price" class="form-control" placeholder="Price per unit">
+        </div>
+
+        <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label class="form-label" for="prod-stock">Available Stock Units</label>
+            <input type="number" id="prod-stock" class="form-control" placeholder="Current quantity">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="prod-threshold">Low Stock Warning Limit</label>
+            <input type="number" id="prod-threshold" class="form-control" placeholder="Alert threshold">
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="product-modal-cancel-btn">Cancel</button>
+        <button class="btn btn-primary" id="product-modal-save-btn">Save Product</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core Module Loader -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

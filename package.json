@@ -1,0 +1,14 @@
+{
+  "name": "festival-gift-hamper-builder",
+  "version": "1.0.0",
+  "description": "A responsive festival gift hamper builder dashboard for Paper Plane",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}

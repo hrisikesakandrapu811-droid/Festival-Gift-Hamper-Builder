@@ -1,0 +1,2183 @@
+/* ==========================================
+   DASHBOARD VIEW
+   ========================================== */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.charts-section {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.chart-card {
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-container {
+  flex-grow: 1;
+  position: relative;
+  height: 0;
+  min-height: 0;
+}
+
+.dashboard-recent {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+}
+
+.popular-occasions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.occasion-stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.occasion-stat-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.progress-bar-bg {
+  height: 8px;
+  background-color: var(--bg-tertiary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.8s ease-out;
+}
+
+@media (max-width: 1024px) {
+  .charts-section, .dashboard-recent {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================
+   HAMPER BUILDER VIEW
+   ========================================== */
+.builder-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 1200px) {
+  .builder-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Builder Left Column - Product Picker */
+.builder-step-card {
+  margin-bottom: 1.5rem;
+}
+
+.product-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-primary);
+}
+
+.product-pick-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  user-select: none;
+}
+
+.product-pick-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+
+.product-pick-card.selected {
+  border-color: var(--gold);
+  background-color: rgba(212, 175, 55, 0.03);
+  box-shadow: 0 0 0 1px var(--gold);
+}
+
+.product-pick-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-pick-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.product-pick-price {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.product-pick-stock {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Selected Quantity Controller */
+.qty-controller {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-top: 0.5rem;
+  background-color: var(--bg-primary);
+}
+
+.qty-btn {
+  background: none;
+  border: none;
+  width: 28px;
+  height: 28px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.qty-btn:hover {
+  background-color: var(--border-color);
+}
+
+.qty-val {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  width: 24px;
+  text-align: center;
+}
+
+/* Category Filter Bar */
+.category-filter-bar {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  min-width: 0;
+}
+
+.category-filter-bar::-webkit-scrollbar {
+  height: 5px;
+}
+
+.category-filter-bar::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-full);
+}
+
+.category-filter-bar::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: var(--radius-full);
+}
+
+.category-filter-bar::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
+.category-chip {
+  padding: 0.35rem 0.875rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--transition);
+}
+
+.category-chip:hover {
+  background-color: var(--border-color);
+}
+
+.category-chip.active {
+  background-color: var(--gold);
+  border-color: var(--gold);
+  color: white;
+}
+
+/* Builder Right Column - Live Visual Preview & Summary */
+.preview-container {
+  position: sticky;
+  top: 95px;
+}
+
+.hamper-visual-preview {
+  height: 240px;
+  background: radial-gradient(circle, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.02);
+}
+
+.hamper-visual-preview.no-packaging::after {
+  content: 'Select a container to preview';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-align: center;
+  pointer-events: none;
+  z-index: 10;
+  background-color: var(--bg-secondary);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-full);
+  border: 1px dashed var(--border-color);
+}
+
+.hamper-visual-preview.no-packaging .basket-handle,
+.hamper-visual-preview.no-packaging .basket-ribbon,
+.hamper-visual-preview.no-packaging .basket-ribbon-bow {
+  display: none !important;
+}
+
+.hamper-visual-preview.no-packaging .basket-body {
+  background: transparent !important;
+  border: 2px dashed var(--border-color) !important;
+  box-shadow: none !important;
+}
+
+.hamper-visual-preview.no-packaging .basket-body::after {
+  display: none !important;
+}
+
+/* Dynamic CSS drawing of the Hamper Box/Basket */
+.basket-body {
+  width: 220px;
+  height: 100px;
+  background: linear-gradient(135deg, #8b5a2b 0%, #5c3a21 100%);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  position: relative;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15), inset 0 4px 6px rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  border: 2px solid #482f1b;
+}
+
+/* Woven Texture for the Basket */
+.basket-body::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.15;
+  background-image: 
+    linear-gradient(90deg, transparent 50%, rgba(255,255,255,.5) 50%),
+    linear-gradient(rgba(255,255,255,.5) 50%, transparent 50%);
+  background-size: 15px 15px;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+/* ==========================================
+   SHAPE SPECIFIC visual OVERRIDES
+   ========================================== */
+
+/* --- 1. CARDBOARD BOX SHAPE --- */
+.shape-cardboard-box .basket-body {
+  width: 220px !important;
+  height: 100px !important;
+  border-radius: 4px !important;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.12), inset 0 2px 4px rgba(255,255,255,0.08) !important;
+}
+/* Shipping label on cardboard */
+.shape-cardboard-box .basket-body::after {
+  content: 'FRAGILE' !important;
+  position: absolute !important;
+  top: 35px !important;
+  left: 20px !important;
+  width: 60px !important;
+  height: 32px !important;
+  background: #f8fafc !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 2px !important;
+  font-size: 8px !important;
+  font-family: monospace !important;
+  color: #ef4444 !important;
+  padding: 2px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.08) !important;
+  transform: rotate(-4deg) !important;
+  opacity: 0.95 !important;
+  font-weight: bold !important;
+  letter-spacing: 0.5px !important;
+}
+/* Cardboard flaps top lid */
+.shape-cardboard-box .basket-body::before {
+  content: '' !important;
+  position: absolute !important;
+  top: -2px !important;
+  left: -2px !important;
+  width: calc(100% + 4px) !important;
+  height: 15px !important;
+  background: rgba(0, 0, 0, 0.08) !important;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.15) !important;
+  border-radius: 4px 4px 0 0 !important;
+  z-index: 8 !important;
+}
+.shape-cardboard-box .basket-handle {
+  display: none !important;
+}
+/* Clear/brown packaging tape down the middle */
+.shape-cardboard-box .basket-ribbon {
+  width: 32px !important;
+  height: 100px !important;
+  background: rgba(0, 0, 0, 0.1) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border-left: 1px dashed rgba(255,255,255,0.08) !important;
+  border-right: 1px dashed rgba(255,255,255,0.08) !important;
+}
+.shape-cardboard-box .basket-ribbon-bow {
+  display: none !important;
+}
+.shape-cardboard-box .basket-items-wrapper {
+  bottom: 92px !important;
+  width: 200px !important;
+}
+
+/* --- 2. WOODEN TRAY SHAPE --- */
+.shape-wooden-tray .basket-body {
+  width: 250px !important;
+  height: 40px !important;
+  border-radius: 2px !important;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2) !important;
+}
+/* Tray handle front cutout */
+.shape-wooden-tray .basket-body::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 14px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 55px !important;
+  height: 12px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 6px !important;
+  background-color: var(--bg-secondary) !important;
+  z-index: 10 !important;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4) !important;
+}
+/* Wood plank texture */
+.shape-wooden-tray .basket-body::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.15) 1px, transparent 1px) !important;
+  background-size: 100% 12px !important;
+  border-radius: 0 !important;
+  opacity: 0.8 !important;
+}
+.shape-wooden-tray .basket-handle,
+.shape-wooden-tray .basket-ribbon,
+.shape-wooden-tray .basket-ribbon-bow {
+  display: none !important;
+}
+.shape-wooden-tray .basket-items-wrapper {
+  bottom: 32px !important;
+  width: 230px !important;
+}
+
+/* --- 3. FESTIVE GIFT BOX SHAPE --- */
+.shape-festive-box .basket-body {
+  width: 210px !important;
+  height: 110px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.18) !important;
+}
+/* Gold stripes/polka pattern */
+.shape-festive-box .basket-body::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background-image: radial-gradient(circle, var(--gold) 8%, transparent 9%) !important;
+  background-size: 18px 18px !important;
+  opacity: 0.15 !important;
+  border-radius: 8px !important;
+}
+/* Box Lid with Gold color */
+.shape-festive-box .basket-body::before {
+  content: '' !important;
+  position: absolute !important;
+  top: -3px !important;
+  left: -3px !important;
+  width: calc(100% + 6px) !important;
+  height: 22px !important;
+  background: linear-gradient(180deg, #f59e0b 0%, #d97706 100%) !important;
+  border: 1px solid var(--gold) !important;
+  border-radius: 8px 8px 3px 3px !important;
+  z-index: 8 !important;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15) !important;
+}
+.shape-festive-box .basket-handle {
+  display: none !important;
+}
+.shape-festive-box .basket-ribbon {
+  height: 110px !important;
+  border-radius: 0 !important;
+  width: 24px !important;
+  background: linear-gradient(90deg, #fbbf24 0%, #d97706 100%) !important;
+}
+.shape-festive-box .basket-ribbon-bow {
+  bottom: 98px !important;
+  background-color: #fbbf24 !important;
+}
+.shape-festive-box .basket-ribbon-bow::before,
+.shape-festive-box .basket-ribbon-bow::after {
+  background-color: #fbbf24 !important;
+  border-color: #d97706 !important;
+}
+.shape-festive-box .basket-items-wrapper {
+  bottom: 102px !important;
+  width: 200px !important;
+}
+
+/* --- 4. PREMIUM BASKET SHAPE --- */
+.shape-premium-basket .basket-body {
+  width: 220px !important;
+  height: 95px !important;
+  border-radius: 0 0 80px 80px !important;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15) !important;
+}
+.shape-premium-basket .basket-handle {
+  display: block !important;
+  border-color: #a27c54 !important;
+  width: 180px !important;
+  height: 120px !important;
+  bottom: 75px !important;
+}
+.shape-premium-basket .basket-ribbon {
+  height: 95px !important;
+  width: 18px !important;
+  background: linear-gradient(90deg, #ef4444 0%, #b91c1c 100%) !important;
+}
+.shape-premium-basket .basket-ribbon-bow {
+  bottom: 80px !important;
+  background-color: #ef4444 !important;
+}
+.shape-premium-basket .basket-ribbon-bow::before,
+.shape-premium-basket .basket-ribbon-bow::after {
+  background-color: #ef4444 !important;
+  border-color: #b91c1c !important;
+}
+.shape-premium-basket .basket-items-wrapper {
+  bottom: 85px !important;
+  width: 190px !important;
+}
+
+/* --- 5. CORPORATE GIFT BOX SHAPE --- */
+.shape-corporate-box .basket-body {
+  width: 215px !important;
+  height: 115px !important;
+  border-radius: 6px !important;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.2) !important;
+}
+/* Sleek corporate emblem logo */
+.shape-corporate-box .basket-body::after {
+  content: '★' !important;
+  position: absolute !important;
+  top: 45px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 32px !important;
+  height: 32px !important;
+  background: linear-gradient(135deg, #f1f5f9 0%, #cbd5e1 100%) !important;
+  border: 1px solid #94a3b8 !important;
+  border-radius: 50% !important;
+  font-size: 13px !important;
+  color: #1e3a8a !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15) !important;
+  z-index: 9 !important;
+}
+/* Double blue trim corporate lid */
+.shape-corporate-box .basket-body::before {
+  content: '' !important;
+  position: absolute !important;
+  top: -2px !important;
+  left: -2px !important;
+  width: calc(100% + 4px) !important;
+  height: 20px !important;
+  background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%) !important;
+  border-bottom: 2px solid #2563eb !important;
+  border-radius: 6px 6px 0 0 !important;
+  z-index: 8 !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15) !important;
+}
+.shape-corporate-box .basket-handle {
+  display: none !important;
+}
+.shape-corporate-box .basket-ribbon {
+  height: 115px !important;
+  width: 20px !important;
+  background: linear-gradient(90deg, #e2e8f0 0%, #cbd5e1 100%) !important;
+}
+.shape-corporate-box .basket-ribbon-bow {
+  bottom: 102px !important;
+  background-color: #cbd5e1 !important;
+}
+.shape-corporate-box .basket-ribbon-bow::before,
+.shape-corporate-box .basket-ribbon-bow::after {
+  background-color: #cbd5e1 !important;
+  border-color: #94a3b8 !important;
+}
+.shape-corporate-box .basket-items-wrapper {
+  bottom: 105px !important;
+  width: 200px !important;
+}
+
+/* --- 6. LUXURY HAMPER BASKET SHAPE --- */
+.shape-luxury-basket .basket-body {
+  width: 230px !important;
+  height: 105px !important;
+  border-radius: 0 0 16px 16px !important;
+  box-shadow: 0 12px 25px rgba(212, 175, 55, 0.12) !important;
+}
+/* Gold-wrapped luxury handle */
+.shape-luxury-basket .basket-handle {
+  display: block !important;
+  border: 12px solid var(--gold) !important;
+  border-bottom: none !important;
+  width: 190px !important;
+  height: 130px !important;
+  bottom: 85px !important;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.15) !important;
+}
+.shape-luxury-basket .basket-ribbon {
+  height: 105px !important;
+  width: 26px !important;
+  background: linear-gradient(90deg, #fbbf24 0%, #ca8a04 100%) !important;
+}
+.shape-luxury-basket .basket-ribbon-bow {
+  bottom: 92px !important;
+  background-color: #fbbf24 !important;
+}
+.shape-luxury-basket .basket-ribbon-bow::before,
+.shape-luxury-basket .basket-ribbon-bow::after {
+  background-color: #fbbf24 !important;
+  border-color: #ca8a04 !important;
+}
+.shape-luxury-basket .basket-items-wrapper {
+  bottom: 95px !important;
+  width: 205px !important;
+}
+
+/* Basket handle */
+.basket-handle {
+  position: absolute;
+  bottom: 80px;
+  width: 180px;
+  height: 120px;
+  border: 10px solid #8b5a2b;
+  border-bottom: none;
+  border-radius: 90px 90px 0 0;
+  z-index: 2;
+  box-shadow: inset 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Basket packaging ribbon overlay */
+.basket-ribbon {
+  position: absolute;
+  bottom: 0;
+  width: 20px;
+  height: 120px;
+  background: linear-gradient(180deg, var(--gold) 0%, #c59b27 100%);
+  z-index: 6;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 2px;
+}
+
+.basket-ribbon-bow {
+  position: absolute;
+  bottom: 85px;
+  width: 40px;
+  height: 30px;
+  background-color: var(--gold);
+  border-radius: var(--radius-sm);
+  z-index: 7;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.basket-ribbon-bow::before, .basket-ribbon-bow::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: var(--gold);
+  border: 2px solid #b88f1d;
+  border-radius: 50%;
+  top: 3px;
+}
+.basket-ribbon-bow::before { left: -10px; }
+.basket-ribbon-bow::after { right: -10px; }
+
+/* Dynamic Selected Items inside Hamper */
+.basket-items-wrapper {
+  position: absolute;
+  bottom: 90px;
+  width: 200px;
+  height: 120px;
+  z-index: 4;
+  display: flex;
+  flex-wrap: wrap-reverse;
+  align-content: flex-start;
+  justify-content: center;
+  gap: 4px;
+  overflow: visible;
+}
+
+.preview-item-chip {
+  padding: 3px 8px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-sm);
+  font-size: 0.625rem;
+  font-weight: 700;
+  white-space: nowrap;
+  animation: fadeIn 0.3s ease-out;
+  transform: rotate(calc(-3deg + (6deg * var(--rand, 0.5))));
+}
+
+/* Packaging Theme Styles (dynamic colors of the container base) */
+.packaging-cardboard {
+  background: linear-gradient(135deg, #c39b74 0%, #a27c54 100%) !important;
+  border-color: #926f49 !important;
+}
+.packaging-cardboard::after { display: none; }
+
+.packaging-wooden {
+  background: linear-gradient(135deg, #814f2e 0%, #583318 100%) !important;
+  border-color: #4a2811 !important;
+}
+.packaging-wooden::after {
+  background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 2px, transparent 2px, transparent 10px) !important;
+  background-size: 100% 100% !important;
+}
+
+.packaging-basket {
+  background: linear-gradient(135deg, #8b5a2b 0%, #5c3a21 100%) !important;
+}
+
+.packaging-glass {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-color: rgba(255, 255, 255, 0.6) !important;
+  backdrop-filter: blur(5px) !important;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.08), inset 0 0 10px rgba(255,255,255,0.3) !important;
+}
+.packaging-glass::after { display: none; }
+
+.packaging-festive {
+  background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%) !important;
+  border-color: var(--gold) !important;
+  box-shadow: 0 10px 20px rgba(220, 38, 38, 0.15), inset 0 4px 6px rgba(255,255,255,0.15) !important;
+}
+.packaging-festive::after {
+  background-image: radial-gradient(circle, var(--gold) 10%, transparent 11%) !important;
+  background-size: 10px 10px !important;
+  opacity: 0.1 !important;
+}
+
+.packaging-corporate {
+  background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%) !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 10px 20px rgba(30, 58, 138, 0.15), inset 0 4px 6px rgba(255,255,255,0.1) !important;
+}
+.packaging-corporate::after { display: none; }
+
+.packaging-luxury {
+  background: linear-gradient(135deg, #18181b 0%, #27272a 100%) !important;
+  border-color: var(--gold) !important;
+  box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2), inset 0 4px 6px rgba(255,255,255,0.05) !important;
+}
+.packaging-luxury::after {
+  opacity: 0.12 !important;
+  background-image: 
+    linear-gradient(90deg, transparent 50%, var(--gold) 50%),
+    linear-gradient(var(--gold) 50%, transparent 50%) !important;
+  background-size: 15px 15px !important;
+}
+
+/* Occasion Greeting Card Visual Styles */
+.greeting-card-preview {
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  margin-top: 1rem;
+  min-height: 140px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+}
+
+.card-occasion-title {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  z-index: 2;
+}
+
+.card-message-text {
+  font-size: 0.8125rem;
+  font-style: italic;
+  white-space: pre-wrap;
+  z-index: 2;
+  flex-grow: 1;
+}
+
+.card-signature {
+  font-size: 0.75rem;
+  margin-top: 1rem;
+  z-index: 2;
+  text-align: right;
+  font-weight: 600;
+}
+
+/* Occasion Themes */
+.card-theme-diwali {
+  background: radial-gradient(circle at center, #9e1a1a 0%, #4a0404 100%);
+  color: #fdf2f8;
+  border: 3px double #d4af37;
+  font-family: var(--font-serif);
+  box-shadow: 0 0 25px rgba(255, 153, 0, 0.4), inset 0 0 15px rgba(212, 175, 55, 0.3);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+.card-theme-diwali::before {
+  content: '🪔 🪔';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 8px rgba(255,153,0,0.8));
+}
+
+.card-theme-christmas {
+  background: linear-gradient(135deg, #166534 0%, #064e3b 100%);
+  color: #f0fdf4;
+  border: 3px double #ef4444;
+  font-family: var(--font-serif);
+  box-shadow: 0 0 20px rgba(22, 101, 52, 0.3);
+}
+.card-theme-christmas::before {
+  content: '❄️ 🎄';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 5px rgba(239,68,68,0.6));
+}
+
+.card-theme-newyear {
+  background: linear-gradient(135deg, #09090b 0%, #1e1b4b 100%);
+  color: #fef08a;
+  border: 2px solid #d4af37;
+  font-family: var(--font-geometric);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+}
+.card-theme-newyear::before {
+  content: '✨ 🥂';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 8px rgba(212,175,55,0.7));
+}
+
+.card-theme-sankranti {
+  background: linear-gradient(135deg, #0284c7 0%, #ea580c 100%);
+  color: #f0fdfa;
+  border: 2px solid #fbbf24;
+  font-family: var(--font-serif);
+}
+.card-theme-sankranti::before {
+  content: '🪁 ☀️';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+}
+
+.card-theme-holi {
+  background: linear-gradient(135deg, #ec4899 0%, #eab308 50%, #06b6d4 100%);
+  color: white;
+  border: 2px dashed #ffffff;
+  font-family: var(--font-playful);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+.card-theme-holi::before {
+  content: '🎨 💦';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+}
+
+.card-theme-eid {
+  background: radial-gradient(circle at center, #064e3b 0%, #022c22 100%);
+  color: #fef08a;
+  border: 2px solid #d4af37;
+  font-family: var(--font-serif);
+  box-shadow: 0 0 20px rgba(6, 78, 59, 0.4);
+}
+.card-theme-eid::before {
+  content: '🌙 ⭐';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 5px #d4af37);
+}
+
+.card-theme-pongal {
+  background: linear-gradient(135deg, #b45309 0%, #78350f 100%);
+  color: #fef3c7;
+  border: 2px solid #84cc16;
+  font-family: var(--font-serif);
+}
+.card-theme-pongal::before {
+  content: '🌾 🏺';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+}
+
+.card-theme-onam {
+  background: linear-gradient(135deg, #ca8a04 0%, #15803d 100%);
+  color: #fefcbf;
+  border: 2px solid #fef08a;
+  font-family: var(--font-serif);
+}
+.card-theme-onam::before {
+  content: '🌸 ⛵';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+}
+
+.card-theme-birthday {
+  background: linear-gradient(135deg, #f472b6 0%, #c084fc 100%);
+  color: white;
+  border: 2px dashed #ffffff;
+  font-family: var(--font-script);
+  font-size: 1.15rem;
+  box-shadow: 0 4px 15px rgba(244, 114, 182, 0.3);
+}
+.card-theme-birthday .card-occasion-title {
+  font-family: var(--font-playful);
+  font-size: 1.35rem;
+}
+.card-theme-birthday::before {
+  content: '🎈 🎂';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+}
+
+.card-theme-anniversary {
+  background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+  color: #9d174d;
+  border: 2px solid #ec4899;
+  font-family: var(--font-script);
+  font-size: 1.15rem;
+  box-shadow: inset 0 0 10px rgba(236, 72, 153, 0.1);
+}
+.card-theme-anniversary .card-occasion-title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  border-bottom: 1px solid rgba(236, 72, 153, 0.2);
+  padding-bottom: 0.2rem;
+}
+.card-theme-anniversary::before {
+  content: '💑 💕';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+}
+
+.card-theme-engagement {
+  background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
+  color: #be123c;
+  border: 2px solid #fda4af;
+  font-family: var(--font-script);
+  font-size: 1.15rem;
+}
+.card-theme-engagement .card-occasion-title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+}
+.card-theme-engagement::before {
+  content: '🥂 ✨';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+}
+
+.card-theme-wedding {
+  background: radial-gradient(circle at center, #fffbeb 0%, #fef3c7 100%);
+  color: #78350f;
+  border: 3px double #d4af37;
+  font-family: var(--font-script);
+  font-size: 1.15rem;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+}
+.card-theme-wedding .card-occasion-title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: #b45309;
+}
+.card-theme-wedding::before {
+  content: '🌸 💍';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+}
+
+.card-theme-babyshower {
+  background: linear-gradient(135deg, #e0f2fe 0%, #fbcfe8 100%);
+  color: #334155;
+  border: 2px dashed #38bdf8;
+  font-family: var(--font-playful);
+}
+.card-theme-babyshower::before {
+  content: '🍼 🧸';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+}
+
+.card-theme-housewarming {
+  background: linear-gradient(135deg, #ccfbf1 0%, #99f6e4 100%);
+  color: #115e59;
+  border: 2px solid #0d9488;
+  font-family: var(--font-sans);
+}
+.card-theme-housewarming::before {
+  content: '🏡 🔑';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+}
+
+.card-theme-ugadi {
+  background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%);
+  color: white;
+  border: 2px solid #fbbf24;
+}
+.card-theme-ugadi::before {
+  content: '🥭 🌿';
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  opacity: 0.8;
+}
+
+.card-theme-dussehra {
+  background: linear-gradient(135deg, #ea580c 0%, #b45309 100%);
+  color: white;
+  border: 2px solid #facc15;
+}
+.card-theme-dussehra::before {
+  content: '🏹 🏵️';
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  opacity: 0.8;
+}
+
+.card-theme-raksha {
+  background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%);
+  color: white;
+  border: 2px solid #fbcfe8;
+}
+.card-theme-raksha::before {
+  content: '🛡️ 🎀';
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  opacity: 0.8;
+}
+
+.card-theme-ganesh {
+  background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
+  color: white;
+  border: 2px solid #f97316;
+}
+.card-theme-ganesh::before {
+  content: '🐘 🕉️';
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  opacity: 0.8;
+}
+
+.card-theme-eid {
+  background: radial-gradient(circle at center, #064e3b 0%, #022c22 100%);
+  color: #fef08a;
+  border: 2px solid #d4af37;
+  font-family: var(--font-serif);
+  box-shadow: 0 0 20px rgba(6, 78, 59, 0.4);
+}
+.card-theme-eid::before {
+  content: '🌙 ⭐';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 5px #d4af37);
+}
+
+.card-theme-pongal {
+  background: linear-gradient(135deg, #b45309 0%, #78350f 100%);
+  color: #fef3c7;
+  border: 2px solid #84cc16;
+  font-family: var(--font-serif);
+}
+.card-theme-pongal::before {
+  content: '🌾 🏺';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+}
+
+.card-theme-onam {
+  background: linear-gradient(135deg, #ca8a04 0%, #15803d 100%);
+  color: #fefcbf;
+  border: 2px solid #fef08a;
+  font-family: var(--font-serif);
+}
+.card-theme-onam::before {
+  content: '🌸 ⛵';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+}
+
+.card-theme-engagement {
+  background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
+  color: #be123c;
+  border: 2px solid #fda4af;
+  font-family: var(--font-script);
+  font-size: 1.15rem;
+}
+.card-theme-engagement .card-occasion-title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+}
+.card-theme-engagement::before {
+  content: '🥂 ✨';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+}
+
+.card-theme-anniversary {
+  background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+  color: #9d174d;
+  border: 2px solid #ec4899;
+  font-family: var(--font-script);
+  font-size: 1.15rem;
+  box-shadow: inset 0 0 10px rgba(236, 72, 153, 0.1);
+}
+.card-theme-anniversary .card-occasion-title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  border-bottom: 1px solid rgba(236, 72, 153, 0.2);
+  padding-bottom: 0.2rem;
+}
+.card-theme-anniversary::before {
+  content: '💑 💕';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+}
+
+.card-theme-housewarming {
+  background: linear-gradient(135deg, #ccfbf1 0%, #99f6e4 100%);
+  color: #115e59;
+  border: 2px solid #0d9488;
+  font-family: var(--font-sans);
+}
+.card-theme-housewarming::before {
+  content: '🏡 🔑';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+}
+
+.card-theme-babyshower {
+  background: linear-gradient(135deg, #e0f2fe 0%, #fbcfe8 100%);
+  color: #334155;
+  border: 2px dashed #38bdf8;
+  font-family: var(--font-playful);
+}
+.card-theme-babyshower::before {
+  content: '🍼 🧸';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+}
+
+.card-theme-farewell {
+  background: linear-gradient(135deg, #f1f5f9 0%, #64748b 100%);
+  color: #1e293b;
+  border: 2px solid #475569;
+}
+.card-theme-farewell::before {
+  content: '🛫 💼';
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  opacity: 0.8;
+}
+
+.card-theme-graduation {
+  background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+  color: var(--gold);
+  border: 2px solid var(--gold);
+}
+.card-theme-graduation::before {
+  content: '🎓 📜';
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  opacity: 0.8;
+}
+
+.card-theme-corp-welcome {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  color: #f8fafc;
+  border: 1px solid #64748b;
+  font-family: var(--font-geometric);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+.card-theme-corp-welcome .card-occasion-title {
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.card-theme-corp-welcome::before {
+  content: '💼 🏢';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.5rem;
+  opacity: 0.7;
+}
+
+.card-theme-corp-festive {
+  background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+  color: white;
+  border: 2px solid var(--gold);
+}
+.card-theme-corp-festive::before {
+  content: '🎁 🎊';
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  opacity: 0.8;
+}
+
+.card-theme-corp-appreciation {
+  background: linear-gradient(135deg, #0f766e 0%, #115e59 100%);
+  color: white;
+  border: 1px solid #2dd4bf;
+  font-family: var(--font-geometric);
+}
+.card-theme-corp-appreciation .card-occasion-title {
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.card-theme-corp-appreciation::before {
+  content: '🤝 🌟';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.5rem;
+  opacity: 0.7;
+}
+
+.card-theme-corp-event {
+  background: linear-gradient(135deg, #3730a3 0%, #1e1b4b 100%);
+  color: white;
+  border: 1px solid #818cf8;
+  font-family: var(--font-geometric);
+}
+.card-theme-corp-event .card-occasion-title {
+  font-size: 1.1rem;
+  text-transform: uppercase;
+}
+.card-theme-corp-event::before {
+  content: '🏢 🎗️';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.5rem;
+  opacity: 0.7;
+}
+
+.card-theme-corp-newyear {
+  background: linear-gradient(135deg, #8b5cf6 0%, #1e1b4b 100%);
+  color: var(--gold);
+  border: 2px solid var(--gold);
+}
+.card-theme-corp-newyear::before {
+  content: '🌟 🥂';
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  opacity: 0.8;
+}
+
+.card-theme-valentines {
+  background: linear-gradient(135deg, #ffe4e6 0%, #fecdd3 100%);
+  color: #9f1239;
+  border: 2px solid #f43f5e;
+  font-family: var(--font-script);
+  font-size: 1.15rem;
+  box-shadow: 0 4px 15px rgba(244, 63, 94, 0.2);
+}
+.card-theme-valentines .card-occasion-title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+}
+.card-theme-valentines::before {
+  content: '💖 🌹';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+}
+
+.card-theme-mothersday {
+  background: linear-gradient(135deg, #fdf2f8 0%, #fbcfe8 100%);
+  color: #9d174d;
+  border: 2px solid #f472b6;
+  font-family: var(--font-script);
+  font-size: 1.15rem;
+}
+.card-theme-mothersday::before {
+  content: '🌸 👩';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+}
+
+.card-theme-fathersday {
+  background: linear-gradient(135deg, #f0f9ff 0%, #bae6fd 100%);
+  color: #0369a1;
+  border: 2px solid #38bdf8;
+  font-family: var(--font-geometric);
+}
+.card-theme-fathersday::before {
+  content: '👔 👨';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.5rem;
+  opacity: 0.8;
+}
+
+.card-theme-womensday {
+  background: linear-gradient(135deg, #faf5ff 0%, #e9d5ff 100%);
+  color: #6b21a8;
+  border: 2px solid #c084fc;
+  font-family: var(--font-script);
+  font-size: 1.15rem;
+}
+.card-theme-womensday::before {
+  content: '✨ ♀️';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+}
+
+.card-theme-friendship {
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  color: #065f46;
+  border: 2px dashed #10b981;
+  font-family: var(--font-playful);
+}
+.card-theme-friendship::before {
+  content: '🤝 😊';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.5rem;
+  opacity: 0.9;
+}
+
+.card-theme-teachersday {
+  background: linear-gradient(135deg, #fefce8 0%, #fef9c3 100%);
+  color: #854d0e;
+  border: 2px solid #eab308;
+  font-family: var(--font-serif);
+}
+.card-theme-teachersday::before {
+  content: '🍎 📚';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.5rem;
+  opacity: 0.9;
+}
+
+.card-theme-luxury {
+  background: radial-gradient(circle at center, #1e1b4b 0%, #09090b 100%);
+  color: #ffd700;
+  border: 3px double #d4af37;
+  font-family: var(--font-serif);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.25), inset 0 0 10px rgba(212, 175, 55, 0.2);
+}
+.card-theme-luxury .card-occasion-title {
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #d4af37;
+}
+.card-theme-luxury::before {
+  content: '💎 👑';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+}
+
+.card-theme-personalized {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #78350f;
+  border: 2px solid #d97706;
+  font-family: var(--font-script);
+  font-size: 1.15rem;
+}
+.card-theme-personalized::before {
+  content: '✨ 🎨';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.5rem;
+  opacity: 0.9;
+}
+
+.card-theme-family {
+  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+  color: #9a3412;
+  border: 2px solid #f97316;
+  font-family: var(--font-script);
+  font-size: 1.15rem;
+}
+.card-theme-family::before {
+  content: '👨‍👩‍👧‍👦 🏡';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.5rem;
+  opacity: 0.9;
+}
+
+.card-theme-couple {
+  background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
+  color: #9f1239;
+  border: 2px solid #fda4af;
+  font-family: var(--font-script);
+  font-size: 1.15rem;
+}
+.card-theme-couple::before {
+  content: '👩‍❤️‍👨 💞';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+}
+
+.card-theme-kids {
+  background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+  color: #0f766e;
+  border: 3px dashed #0d9488;
+  font-family: var(--font-playful);
+}
+.card-theme-kids .card-occasion-title {
+  font-size: 1.25rem;
+}
+.card-theme-kids::before {
+  content: '🧸 🎈';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.6rem;
+  opacity: 0.9;
+}
+
+.card-theme-corp-premium {
+  background: radial-gradient(circle at center, #111827 0%, #030712 100%);
+  color: #ffd700;
+  border: 2px solid #d4af37;
+  font-family: var(--font-geometric);
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.15);
+}
+.card-theme-corp-premium .card-occasion-title {
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.card-theme-corp-premium::before {
+  content: '👔 💼';
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 1.5rem;
+  opacity: 0.8;
+}
+
+.card-theme-default {
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+  color: var(--text-primary);
+  border: 1px dashed var(--text-muted);
+}
+
+/* Hamper Pricing Breakdown Receipt */
+.invoice-summary-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  border-top: 1px dashed var(--border-color);
+  border-bottom: 1px dashed var(--border-color);
+  padding: 1rem 0;
+  font-size: 0.875rem;
+}
+
+.invoice-summary-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.invoice-summary-row.total {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-top: 0.5rem;
+}
+
+
+/* ==========================================
+   INVENTORY VIEW
+   ========================================== */
+.inventory-header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.inventory-filters {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.stock-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+}
+
+.stock-indicator.green { background-color: var(--success); box-shadow: 0 0 8px var(--success); }
+.stock-indicator.yellow { background-color: var(--warning); box-shadow: 0 0 8px var(--warning); }
+.stock-indicator.red { background-color: var(--danger); box-shadow: 0 0 8px var(--danger); }
+
+
+/* ==========================================
+   ORDERS MANAGEMENT VIEW
+   ========================================== */
+.orders-filters-container {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-md);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.orders-actions-cell {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Order Details Slip inside Modal */
+.order-slip-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.order-slip-header {
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 0.75rem;
+}
+
+.order-slip-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  font-size: 0.875rem;
+}
+
+.order-slip-section-title {
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em;
+}
+
+.order-slip-items {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.order-slip-items th {
+  text-align: left;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.order-slip-items td {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.875rem;
+}
+
+.order-slip-greeting {
+  background-color: var(--bg-tertiary);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  font-style: italic;
+  font-size: 0.875rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ==========================================
+   REPORTS VIEW
+   ========================================== */
+.reports-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+
+/* ==========================================
+   SETTINGS VIEW
+   ========================================== */
+.settings-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+@media (max-width: 900px) {
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.settings-box {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.settings-heading {
+  font-size: 1.125rem;
+  font-weight: 700;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Custom HTML Chart Legend */
+.custom-chart-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 0.4rem;
+  padding: 0.75rem 0.5rem 0.25rem;
+  border-top: 1px solid var(--border-color);
+  margin-top: 0.5rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.legend-color-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legend-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+}
+
+/* ==========================================
+   ROLE SELECTION PORTAL
+   ========================================== */
+.role-portal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.role-portal-container {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 800px;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.role-portal-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.role-portal-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--gold) 0%, #a91d22 100%);
+  box-shadow: var(--shadow-gold);
+  margin-bottom: 0.5rem;
+}
+
+.role-portal-header h2 {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.role-portal-header p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.role-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+@media (max-width: 650px) {
+  .role-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .role-portal-container {
+    padding: 1.5rem;
+  }
+}
+
+.role-card {
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: var(--radius-md);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+[data-theme="dark"] .role-card {
+  background: rgba(11, 15, 25, 0.4);
+}
+
+.role-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--gold);
+  box-shadow: var(--shadow-md);
+  background: var(--bg-tertiary);
+}
+
+.role-card-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.role-card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.role-card p {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+/* ==========================================
+   TRACK ORDER VIEW
+   ========================================== */
+.tracking-search-box {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+}
+
+.track-matches-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.track-match-item-card {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  background: var(--bg-tertiary);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.track-match-item-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.match-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.match-id {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  color: var(--gold);
+}
+
+.match-body p {
+  font-size: 0.8125rem;
+  margin-bottom: 0.15rem;
+}
+
+.tracking-stepper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (max-width: 600px) {
+  .tracking-stepper {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding-left: 2rem;
+  }
+  .step-connector {
+    width: 2px !important;
+    height: 40px !important;
+    left: 18px !important;
+    top: auto !important;
+    transform: translateY(-10px) !important;
+  }
+}
+
+.step-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 2;
+  opacity: 0.4;
+  transition: var(--transition);
+}
+
+@media (max-width: 600px) {
+  .step-node {
+    flex-direction: row;
+    gap: 1rem;
+  }
+}
+
+.step-node.active {
+  opacity: 1;
+}
+
+.step-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--bg-tertiary);
+  border: 2px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: var(--transition);
+}
+
+.step-node.active .step-icon {
+  background: linear-gradient(135deg, var(--gold) 0%, #b89535 100%);
+  border-color: var(--gold);
+  color: white;
+  box-shadow: var(--shadow-gold);
+}
+
+.step-node.current .step-icon {
+  animation: pulse-gold 2s infinite;
+}
+
+@keyframes pulse-gold {
+  0% {
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(212, 175, 55, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
+  }
+}
+
+.step-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.step-connector {
+  flex-grow: 1;
+  height: 3px;
+  background-color: var(--border-color);
+  margin: 0 -15px;
+  z-index: 1;
+  position: relative;
+  top: -15px; /* offset label height */
+  transition: var(--transition);
+}
+
+@media (max-width: 600px) {
+  .step-connector {
+    margin: 0;
+  }
+}
+
+.step-connector.active {
+  background-color: var(--gold);
+}
+
+.tracking-details-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .tracking-details-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tracking-timeline-log {
+  list-style: none;
+  padding-left: 1.25rem;
+  border-left: 2px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
+  margin-left: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.timeline-log-item {
+  position: relative;
+}
+
+.log-indicator {
+  position: absolute;
+  left: -26px;
+  top: 5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border-focus);
+  border: 2px solid var(--bg-primary);
+}
+
+.timeline-log-item:first-child .log-indicator {
+  background: var(--gold);
+  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.2);
+}
+
+.log-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.log-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.log-desc {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+.log-time {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================
+   AUTHENTICATION FORM
+   ========================================== */
+.auth-card-form {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 2rem;
+  transition: var(--transition);
+}
+
+[data-theme="dark"] .auth-card-form {
+  background: rgba(11, 15, 25, 0.45);
+}
+
+.auth-form-title {
+  font-size: 1.5rem;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.auth-tab {
+  flex: 1;
+  text-align: center;
+  padding: 0.5rem 1rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  cursor: pointer;
+  background: transparent !important;
+  color: var(--text-secondary) !important;
+  border: 1px solid transparent !important;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+}
+
+.auth-tab:hover {
+  background: var(--bg-tertiary) !important;
+  color: var(--text-primary) !important;
+}
+
+.auth-tab.active {
+  background: var(--btn-primary-bg) !important;
+  color: var(--btn-primary-text) !important;
+  box-shadow: var(--shadow-sm);
+}
+
+.auth-tab-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+

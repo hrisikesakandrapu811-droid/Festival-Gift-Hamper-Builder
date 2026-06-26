@@ -1,0 +1,256 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Dancing+Script:wght@400;700&family=Montserrat:wght@400;600;700&family=Fredoka:wght@400;600&display=swap');
+
+/* Color & Design Tokens */
+:root {
+  /* Common Palette */
+  --gold: #d4af37;
+  --gold-rgb: 212, 175, 55;
+  --gold-hover: #c59b27;
+  --success: #10b981;
+  --success-bg: rgba(16, 185, 129, 0.1);
+  --warning: #f59e0b;
+  --warning-bg: rgba(245, 158, 11, 0.1);
+  --danger: #ef4444;
+  --danger-bg: rgba(239, 68, 68, 0.1);
+  --info: #3b82f6;
+  --info-bg: rgba(59, 130, 246, 0.1);
+
+  /* Light Theme Variables (Champagne Gold Royale) */
+  --bg-gradient: linear-gradient(135deg, #FFFDF4 0%, #FFFDF4 50%, #FFE5B4 50%, #D4AF37 100%);
+  --bg-primary: #FFFDF4;
+  --bg-secondary: rgba(255, 255, 255, 0.72);
+  --bg-tertiary: rgba(255, 229, 180, 0.45);
+  
+  --text-primary: #3a2a10;
+  --text-secondary: #5e4722;
+  --text-muted: #8d7042;
+  
+  --border-color: rgba(212, 175, 55, 0.35);
+  --border-focus: #d4af37;
+  
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(212, 175, 55, 0.3);
+  --shadow-sm: 0 2px 4px rgba(212, 175, 55, 0.08);
+  --shadow-md: 0 8px 16px rgba(212, 175, 55, 0.12), 0 2px 4px rgba(212, 175, 55, 0.06);
+  --shadow-lg: 0 16px 24px rgba(212, 175, 55, 0.16), 0 4px 10px rgba(212, 175, 55, 0.08);
+  --shadow-gold: 0 10px 20px -5px rgba(212, 175, 55, 0.25);
+  --btn-primary-bg: linear-gradient(135deg, #d4af37 0%, #b89535 100%);
+  --btn-primary-text: #ffffff;
+
+  --font-sans: 'Outfit', sans-serif;
+  --font-serif: 'Playfair Display', serif;
+  --font-script: 'Dancing Script', cursive;
+  --font-geometric: 'Montserrat', sans-serif;
+  --font-playful: 'Fredoka', sans-serif;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-full: 9999px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] {
+  /* Dark Theme Variables (Royal Violet Galaxy) */
+  --bg-gradient: linear-gradient(135deg, #0B0F19 0%, #1E1B4B 50%, #581C87 100%);
+  --bg-primary: #0B0F19;
+  --bg-secondary: rgba(11, 15, 25, 0.72);
+  --bg-tertiary: rgba(30, 27, 75, 0.55);
+  
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  
+  --border-color: rgba(88, 28, 135, 0.3);
+  --border-focus: #7c3aed;
+  
+  --glass-bg: rgba(11, 15, 25, 0.68);
+  --glass-border: rgba(88, 28, 135, 0.35);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 16px 24px rgba(0, 0, 0, 0.45), 0 4px 10px rgba(0, 0, 0, 0.25);
+  --shadow-gold: 0 10px 25px -5px rgba(124, 58, 237, 0.15);
+  --btn-primary-bg: linear-gradient(135deg, #581c87 0%, #1e1b4b 100%);
+  --btn-primary-text: #ffffff;
+}
+
+/* Reset & Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  line-height: 1.5;
+  overflow-x: hidden;
+  transition: background 0.4s ease, color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Utility Classes */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.align-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.grid { display: grid; }
+.gap-1 { gap: 0.25rem; }
+.gap-2 { gap: 0.5rem; }
+.gap-3 { gap: 0.75rem; }
+.gap-4 { gap: 1rem; }
+.gap-6 { gap: 1.5rem; }
+.w-full { width: 100%; }
+.m-0 { margin: 0; }
+.p-4 { padding: 1rem; }
+.p-6 { padding: 1.5rem; }
+
+.text-gold { color: var(--gold); }
+.text-success { color: var(--success); }
+.text-warning { color: var(--warning); }
+.text-danger { color: var(--danger); }
+.text-muted { color: var(--text-muted); }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+
+.hidden { display: none !important; }
+
+/* Backdrop filter utility for glassmorphism */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+}
+
+/* Animation utilities */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-fade {
+  animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Light Theme Floating Particles */
+html::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+  background-image: 
+    /* Layer 1: Golden Sparkles (40% density - 4 elements) */
+    radial-gradient(circle, rgba(212, 175, 55, 0.4) 1px, transparent 1px),
+    radial-gradient(circle, rgba(212, 175, 55, 0.4) 1.5px, transparent 1.5px),
+    radial-gradient(circle, rgba(212, 175, 55, 0.4) 1px, transparent 1px),
+    radial-gradient(circle, rgba(212, 175, 55, 0.35) 2px, transparent 2px),
+    /* Layer 2: Champagne Glow (30% density - 3 elements) */
+    radial-gradient(circle, rgba(255, 229, 180, 0.5) 1.8px, transparent 1.8px),
+    radial-gradient(circle, rgba(255, 229, 180, 0.5) 1.2px, transparent 1.2px),
+    radial-gradient(circle, rgba(255, 229, 180, 0.45) 2.2px, transparent 2.2px),
+    /* Layer 3: Soft Peach Lights (20% density - 2 elements) */
+    radial-gradient(circle, rgba(255, 203, 164, 0.5) 1.5px, transparent 1.5px),
+    radial-gradient(circle, rgba(255, 203, 164, 0.45) 2.5px, transparent 2.5px),
+    /* Layer 4: Ivory Shimmer (10% density - 1 element) */
+    radial-gradient(circle, rgba(255, 255, 240, 0.6) 3px, transparent 3px);
+  background-size: 130px 130px, 180px 180px, 220px 220px, 260px 260px, 150px 150px, 210px 210px, 290px 290px, 200px 200px, 270px 270px, 350px 350px;
+  background-position: 0 0, 35px 65px, 80px 140px, 120px 40px, 60px 110px, 100px 30px, 190px 150px, 50px 90px, 160px 220px, 130px 280px;
+  animation: floatParticlesLight 50s linear infinite;
+  opacity: 0.85;
+}
+
+/* Dark Theme Floating Particles Overlay (Overrides Light Theme) */
+[data-theme="dark"]::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+  background-image: 
+    /* Layer 1: Silver Stardust (70% density) */
+    radial-gradient(circle, rgba(226, 232, 240, 0.45) 1px, transparent 1px),
+    radial-gradient(circle, rgba(226, 232, 240, 0.45) 1.5px, transparent 1.5px),
+    /* Layer 2: Soft Lavender Glow (15% density) */
+    radial-gradient(circle, rgba(224, 204, 250, 0.55) 2.2px, transparent 2.2px),
+    /* Layer 3: Electric Violet Sparks (10% density) */
+    radial-gradient(circle, rgba(139, 92, 246, 0.65) 2.5px, transparent 2.5px),
+    /* Layer 4: Cosmic Blue Dust (5% density) */
+    radial-gradient(circle, rgba(59, 130, 246, 0.55) 3.5px, transparent 3.5px);
+  background-size: 140px 140px, 200px 200px, 260px 260px, 300px 300px, 380px 380px;
+  background-position: 0 0, 45px 85px, 120px 40px, 80px 200px, 180px 270px;
+  animation: floatParticles 45s linear infinite;
+  opacity: 0.85;
+}
+
+@keyframes floatParticles {
+  0% {
+    background-position: 0 0, 45px 85px, 120px 40px, 80px 200px, 180px 270px;
+  }
+  100% {
+    background-position: 140px 280px, 245px 485px, 380px 560px, 380px 800px, 560px 1030px;
+  }
+}
+
+@keyframes floatParticlesLight {
+  0% {
+    background-position: 0 0, 35px 65px, 80px 140px, 120px 40px, 60px 110px, 100px 30px, 190px 150px, 50px 90px, 160px 220px, 130px 280px;
+  }
+  100% {
+    background-position: 130px 260px, 215px 425px, 300px 580px, 380px 440px, 210px 410px, 310px 450px, 480px 730px, 250px 490px, 430px 820px, 480px 980px;
+  }
+}
